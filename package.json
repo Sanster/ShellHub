@@ -1,0 +1,35 @@
+{
+  "name": "wshell",
+  "version": "0.1.0",
+  "description": "Web Shell",
+  "main": "index.js",
+  "scripts": {
+    "start": "node src/server/app.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.15.2",
+    "socket.io": "^1.7.3",
+    "vue": "^2.2.5",
+    "vue-router": "^2.3.0"
+  },
+  "devDependencies": {
+    "autoprefixer": "^6.7.7",
+    "babel-core": "^6.24.0",
+    "babel-eslint": "^7.2.1",
+    "babel-loader": "^6.4.1",
+    "babel-preset-env": "^1.2.2",
+    "babel-preset-stage-3": "^6.22.0",
+    "css-loader": "^0.27.3",
+    "eslint": "^3.18.0",
+    "eslint-loader": "^1.7.0",
+    "file-loader": "^0.10.1",
+    "node-sass": "^4.5.1",
+    "sass-loader": "^6.0.3",
+    "url-loader": "^0.5.8",
+    "vue-loader": "^11.3.3",
+    "vue-template-compiler": "^2.2.5",
+    "webpack": "^2.3.2"
+  }
+}
