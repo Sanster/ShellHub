@@ -1,0 +1,9 @@
+{
+    "extends": "vue",
+    "plugins": [
+      "vue"
+    ],
+    "parserOptions": {
+      "ecmaVersion": "2017"
+    }
+}

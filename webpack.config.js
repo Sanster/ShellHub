@@ -5,9 +5,7 @@ function resolve (dir) {
 }
 
 module.exports = {
-  entry: {
-    app: './src/client/index.js'
-  },
+  entry: ['babel-polyfill', './src/client/index.js'],
   output: {
     path: resolve('src/client/dist'),
     filename: '[name].js',
@@ -17,7 +15,7 @@ module.exports = {
     extensions: ['.js', '.vue', '.json'],
     alias: {
       'vue$': 'vue/dist/vue.esm.js',
-      '@': resolve('src'),
+      '@': resolve('src')
     }
   },
   module: {
