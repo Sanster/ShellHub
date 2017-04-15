@@ -1,10 +1,11 @@
 {
   "presets": [
-    ["env", "stage-3"]
+    "env", "stage-3"
   ],
   "plugins": [
     "transform-es2015-parameters",
     "transform-object-rest-spread",
-    "transform-async-to-generator"
+    "transform-async-to-generator",
+    "transform-react-jsx"
   ]
 }

@@ -1,38 +1,41 @@
 var path = require('path')
-
-function resolve (dir) {
-  return path.join(__dirname, '.', dir)
-}
+var webpack = require('webpack')
 
 module.exports = {
-  entry: ['babel-polyfill', './src/client/index.js'],
+  entry: './src/client/index.js',
   output: {
-    path: resolve('src/client/dist'),
-    filename: '[name].js',
-    publicPath: '/'
+    path: path.resolve(__dirname, './build'),
+    publicPath: '/',
+    filename: 'bundle.js'
   },
   resolve: {
-    extensions: ['.js', '.vue', '.json'],
-    alias: {
-      'vue$': 'vue/dist/vue.esm.js',
-      '@': resolve('src')
-    }
+    extensions: ['.js', '.jsx']
   },
   module: {
-    rules: [
+    loaders: [
       {
-        test: /\.vue$/,
-        loader: 'vue-loader'
-      },
-      {
-        test: /\.js$/,
+        test: /\.js|jsx$/,
         loader: 'babel-loader',
-        include: [resolve('src/client')]
+        exclude: /node_modules/
       },
       {
         test: /\.scss$/,
-        loader: 'style-loader!css-loader!sass-loader'
+        loader: 'style-loader!css-loader!sass-loader',
+        // loader: ExtractTextPlugin.extract("style","css!sass")
+      },
+      {
+        test: /\.(png|jpg|jpeg|gif)$/,
+        loader: 'url-loader?limit=10000&name=[name].[ext]'
+      },
+      {
+        test: /\.woff$/,
+        loader: 'url-loader?limit=10000&name=[name].[ext]'
       }
     ]
-  }
+  },
+  devServer: {
+    historyApiFallback: true,
+    noInfo: true
+  },
+  devtool: '#eval-source-map'
 }
