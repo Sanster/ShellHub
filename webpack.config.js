@@ -3,17 +3,9 @@ var webpack = require('webpack')
 
 module.exports = {
   entry: [
+    'webpack-hot-middleware/client?reload=true',
     // active HMR for React
     'react-hot-loader/patch',
-
-    // bundle the client for webpack-dev-server
-    // and connect to the provided endpoint
-    'webpack-dev-server/client?http://localhost:8080',
-
-    // bundle the client for hot reloading
-    // only- means to only hot reload for successful updates
-    'webpack/hot/only-dev-server',
-
     './src/client/index.js',
   ],
   output: {
@@ -59,6 +51,7 @@ module.exports = {
   plugins: [
     // enable HMR globally
     new webpack.HotModuleReplacementPlugin(),
+    new webpack.NoEmitOnErrorsPlugin(),
 
     // prints more readable module names in the browser console on HMR updates
     new webpack.NamedModulesPlugin(),

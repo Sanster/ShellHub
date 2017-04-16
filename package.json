@@ -5,7 +5,6 @@
   "main": "index.js",
   "scripts": {
     "start": "node --harmony src/server/app.js",
-    "dev": "webpack-dev-server",
     "install:hook": "ln -fs ../../scripts/pre-commit .git/hooks/pre-commit"
   },
   "author": "",
@@ -56,6 +55,7 @@
     "style-loader": "^0.16.1",
     "url-loader": "^0.5.8",
     "webpack": "^2.3.2",
-    "webpack-dev-server": "^2.4.2"
+    "webpack-dev-middleware": "^1.10.1",
+    "webpack-hot-middleware": "^2.18.0"
   }
 }

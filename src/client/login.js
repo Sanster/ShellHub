@@ -9,8 +9,8 @@ export default class Login extends Component {
     this.doLogin = this.doLogin.bind(this)
   }
 
-  doLogin() {
-
+  doLogin(e) {
+    e.preventDefault()
   }
 
   render() {

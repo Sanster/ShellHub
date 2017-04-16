@@ -5,8 +5,19 @@ var Strategy = require('passport-local').Strategy
 var server = require('http').Server(app)
 var io = require('socket.io')(server)
 var path = require('path')
+
 var connectDatabase = require('./db')
 var User = require('./models/user')
+
+var webpack = require('webpack')
+var webpackConfig = require('../../webpack.config')
+var compiler = webpack(webpackConfig)
+
+app.use(require("webpack-dev-middleware")(compiler, {
+    noInfo: true, publicPath: webpackConfig.output.publicPath
+}))
+
+app.use(require("webpack-hot-middleware")(compiler))
 
 // Configure the local strategy for use by Passport.
 //
