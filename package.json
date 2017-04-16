@@ -13,7 +13,10 @@
     "express": "^4.15.2",
     "mongoose": "^4.9.4",
     "react": "^15.5.4",
+    "react-dnd": "^2.3.0",
+    "react-dnd-html5-backend": "^2.3.0",
     "react-dom": "^15.5.4",
+    "semantic-ui-less": "^2.2.10",
     "semantic-ui-react": "^0.67.2",
     "socket.io": "^1.7.3"
   },
@@ -37,8 +40,10 @@
     "eslint-plugin-jsx-a11y": "^4.0.0",
     "eslint-plugin-react": "^6.10.3",
     "file-loader": "^0.10.1",
-    "node-sass": "^4.5.1",
-    "sass-loader": "^6.0.3",
+    "less": "^2.7.2",
+    "less-loader": "^4.0.3",
+    "semantic-ui": "^2.2.10",
+    "style-loader": "^0.16.1",
     "url-loader": "^0.5.8",
     "webpack": "^2.3.2"
   }

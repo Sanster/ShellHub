@@ -19,16 +19,15 @@ module.exports = {
         exclude: /node_modules/
       },
       {
-        test: /\.scss$/,
-        loader: 'style-loader!css-loader!sass-loader',
-        // loader: ExtractTextPlugin.extract("style","css!sass")
+        test: /\.less$/,
+        loader: 'style-loader!css-loader!less-loader',
       },
       {
-        test: /\.(png|jpg|jpeg|gif)$/,
+        test: /\.(png|jpg|jpeg|gif|svg)$/,
         loader: 'url-loader?limit=10000&name=[name].[ext]'
       },
       {
-        test: /\.woff$/,
+        test: /\.(woff|woff2|eot|ttf)$/,
         loader: 'url-loader?limit=10000&name=[name].[ext]'
       }
     ]
