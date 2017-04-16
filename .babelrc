@@ -1,11 +1,13 @@
 {
   "presets": [
-    "env", "stage-3"
+    ["env", {"modules": false}],
+    "stage-3",
+    "react"
   ],
   "plugins": [
     "transform-es2015-parameters",
     "transform-object-rest-spread",
     "transform-async-to-generator",
-    "transform-react-jsx"
+    "react-hot-loader/babel"
   ]
 }

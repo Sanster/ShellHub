@@ -5,13 +5,21 @@
   "main": "index.js",
   "scripts": {
     "start": "node --harmony src/server/app.js",
+    "dev": "webpack-dev-server",
     "install:hook": "ln -fs ../../scripts/pre-commit .git/hooks/pre-commit"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "axios": "^0.16.1",
+    "body-parser": "^1.17.1",
+    "cookie-parser": "^1.4.3",
     "express": "^4.15.2",
+    "express-session": "^1.15.2",
     "mongoose": "^4.9.4",
+    "morgan": "^1.8.1",
+    "passport": "^0.3.2",
+    "passport-local": "^1.0.0",
     "react": "^15.5.4",
     "react-dnd": "^2.3.0",
     "react-dnd-html5-backend": "^2.3.0",
@@ -31,6 +39,7 @@
     "babel-plugin-transform-react-jsx": "^6.24.1",
     "babel-polyfill": "^6.23.0",
     "babel-preset-env": "^1.2.2",
+    "babel-preset-react": "^6.24.1",
     "babel-preset-stage-3": "^6.22.0",
     "css-loader": "^0.27.3",
     "eslint": "^3.18.0",
@@ -42,9 +51,11 @@
     "file-loader": "^0.10.1",
     "less": "^2.7.2",
     "less-loader": "^4.0.3",
+    "react-hot-loader": "^3.0.0-beta.6",
     "semantic-ui": "^2.2.10",
     "style-loader": "^0.16.1",
     "url-loader": "^0.5.8",
-    "webpack": "^2.3.2"
+    "webpack": "^2.3.2",
+    "webpack-dev-server": "^2.4.2"
   }
 }
