@@ -1,13 +1,12 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 import App from './app'
-import Login from './login'
-
+import LoginPage from './pages/loginPage'
 import { AppContainer } from 'react-hot-loader'
 
 ReactDOM.render(
   <AppContainer>
-   <Login />
+   <App />
   </AppContainer>,
   document.getElementById('root')
 )

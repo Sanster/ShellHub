@@ -1,5 +1,6 @@
 var { resolve } = require('path')
 var webpack = require('webpack')
+var HtmlWebpackPlugin = require('html-webpack-plugin')
 
 module.exports = {
   entry: [
@@ -38,6 +39,10 @@ module.exports = {
         use: ['style-loader', 'css-loader', 'less-loader'],
       },
       {
+        test: /\.css$/,
+        use: ['style-loader', 'css-loader'],
+      },
+      {
         test: /\.(png|jpg|jpeg|gif|svg)$/,
         loader: 'url-loader?limit=10000&name=[name].[ext]'
       },
@@ -55,5 +60,10 @@ module.exports = {
 
     // prints more readable module names in the browser console on HMR updates
     new webpack.NamedModulesPlugin(),
+
+    new HtmlWebpackPlugin({
+      title: 'WebShell',
+      template: './src/index.ejs'
+    }),
   ]
 }

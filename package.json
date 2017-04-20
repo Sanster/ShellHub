@@ -4,7 +4,7 @@
   "description": "Web Shell",
   "main": "index.js",
   "scripts": {
-    "start": "node --harmony src/server/app.js",
+    "start": "nodemon src/server/app.js --watch src/server",
     "install:hook": "ln -fs ../../scripts/pre-commit .git/hooks/pre-commit"
   },
   "author": "",
@@ -25,9 +25,12 @@
     "react-dom": "^15.5.4",
     "semantic-ui-less": "^2.2.10",
     "semantic-ui-react": "^0.67.2",
-    "socket.io": "^1.7.3"
+    "socket.io": "^1.7.3",
+    "ssh2": "^0.5.4",
+    "xterm": "^2.5.0"
   },
   "devDependencies": {
+    "@types/react": "^15.0.22",
     "autoprefixer": "^6.7.7",
     "babel-core": "^6.24.0",
     "babel-eslint": "^7.2.1",
@@ -48,8 +51,10 @@
     "eslint-plugin-jsx-a11y": "^4.0.0",
     "eslint-plugin-react": "^6.10.3",
     "file-loader": "^0.10.1",
+    "html-webpack-plugin": "^2.28.0",
     "less": "^2.7.2",
     "less-loader": "^4.0.3",
+    "nodemon": "^1.11.0",
     "react-hot-loader": "^3.0.0-beta.6",
     "semantic-ui": "^2.2.10",
     "style-loader": "^0.16.1",

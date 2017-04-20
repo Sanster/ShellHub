@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { Segment, Form, Input, Button } from 'semantic-ui-react'
-import './style/login.less'
+import './login.less'
 
 export default class Login extends Component {
   constructor(props) {

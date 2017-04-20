@@ -1,0 +1,33 @@
+.tab-menu {
+  width: 100%;
+  background-color: rgb(37, 37, 37);
+  display: flex;
+  height: 30px;
+}
+
+.tab-item {
+  display: flex;
+  padding: 5px;
+  padding-left: 15px;
+  height: 30px;
+  width: 120px;
+  cursor: pointer;
+  background-color: rgb(45, 45, 45);
+  color: white;
+  border-left: 1px solid rgb(30, 30, 30);
+
+  &.active {
+    background-color: rgb(30, 30, 30);
+  }
+
+  &:hover {
+    .tab-item-close-btn {
+      visibility: visible;
+    }
+  }
+}
+
+.tab-item-close-btn {
+  visibility: hidden;
+  color: white;
+}

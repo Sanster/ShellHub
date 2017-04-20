@@ -37,15 +37,21 @@ class TreeView extends Component {
 
     const list = data.map(item => {
       if(item.children !== undefined) {
-        let folderClass = 'tree-view_children'
-        if (this.state.collapsedItems.get(item.id)) {
-          folderClass += '-collapsed'
+        let isCollapsed = this.state.collapsedItems.get(item.id)
+
+        let folderClass
+        if (isCollapsed) {
+          folderClass = 'tree-view_children-collapsed'
+        } else {
+          folderClass = 'tree-view_children'
         }
 
         return (
           <div className='tree-view' key={item.name}>
-            <FolderItem onClick={() => this.collapse(item.id)}>
-              <span>{item.name}</span>
+            <FolderItem
+              name={item.name}
+              isCollapsed={isCollapsed}
+              onClick={() => this.collapse(item.id)}>
             </FolderItem>
             {
               item.children.length ?

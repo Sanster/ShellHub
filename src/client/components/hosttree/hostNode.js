@@ -24,6 +24,7 @@ class TreeNode extends Component {
       <div
         className="host"
         style={{opacity: isDragging ? 0.5 : 1}}>
+        <div className="icon terminal" />
         {children}
       </div>
     )

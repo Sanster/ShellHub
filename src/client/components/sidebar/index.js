@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Sidebar, Button, Menu, Image, Icon, Header } from 'semantic-ui-react'
+import { Sidebar, Button, Menu, Header, Segment } from 'semantic-ui-react'
 import HostTree from '../hosttree'
 import './style.less'
 
@@ -17,7 +17,7 @@ const treeData = [
   {name: 'Nanjin', id: 4, children: []},
 ]
 
-class SidebarRightOverlay extends Component {
+class SidebarMenu extends Component {
   constructor(props) {
     super(props)
   }
@@ -35,14 +35,17 @@ class SidebarRightOverlay extends Component {
             vertical
             inverted
           >
-            <HostTree data={treeData}></HostTree>
+          <Segment vertical>
+            <div className='sidebar-header'>
+              <h2 className='sidebar-title'>Sessions</h2>
+            </div>
+          </Segment>
+          <HostTree data={treeData}></HostTree>
           </Sidebar>
-          <Sidebar.Pusher>
-            { children }
-          </Sidebar.Pusher>
+          { children }
         </Sidebar.Pushable>
     )
   }
 }
 
-export default SidebarRightOverlay
+export default SidebarMenu

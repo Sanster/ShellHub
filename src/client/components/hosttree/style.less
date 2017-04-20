@@ -1,43 +1,59 @@
-/* the tree node's style */
+.host-tree {
+  padding-left: 20px;
+}
+
 .tree-view {
   overflow-y: hidden;
   text-align: left;
-  padding-left: 30px;
 }
 
-.tree-view_item, .host {
+.tree-view-folder, .host {
   /* immediate child of .tree-view, for styling convenience */
   cursor: pointer;
   margin: 3px;
+  user-select: none;
+  display: flex;
+  align-items: center;
 }
 
 /* style for the children nodes container */
 .tree-view_children {
-  margin-left: 16px;
+  margin-left: 32px;
 }
 
 .tree-view_children-collapsed {
   height: 0px;
 }
 
-.tree-view_arrow {
-  cursor: pointer;
-  margin-right: 6px;
+.icon {
   display: inline-block;
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
+  margin-right: 6px;
 }
 
-.tree-view_arrow:after {
-  content: '▾';
+.icon.folder-collapsed-arrow {
+  background: url('folderCollapsedArrow.svg') no-repeat;
 }
 
-/* rotate the triangle to close it */
-.tree-view_arrow-collapsed {
-  -webkit-transform: rotate(-90deg);
-  -moz-transform: rotate(-90deg);
-  -ms-transform: rotate(-90deg);
-  transform: rotate(-90deg);
+.icon.folder-arrow {
+  background: url('folderArrow.svg') no-repeat
+}
+
+.icon {
+  &.folder-collapsed-arrow, &.folder-arrow {
+    background-position: center right;
+    width: 12px;
+    height: 12px;
+  }
+}
+
+.icon.folder {
+  background-image: url('folder.svg');
+  width: 18px;
+  height: 15px;
+}
+
+.icon.terminal {
+  background: url('terminal.svg') no-repeat;
+  width: 18px;
+  height: 14px;
 }
