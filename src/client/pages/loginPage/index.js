@@ -17,10 +17,7 @@ export default class Login extends Component {
 
     return(
       <div className="login-container">
-        <Segment
-          raised
-          className="login-dialog"
-        >
+        <div className="login-dialog">
           <Form className="login-form" >
             <Form.Field>
               <Input placeholder='Username' />
@@ -37,7 +34,7 @@ export default class Login extends Component {
               Login
             </Button>
           </Form>
-        </Segment>
+        </div>
       </div>
     )
   }
