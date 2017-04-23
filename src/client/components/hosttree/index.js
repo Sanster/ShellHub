@@ -10,14 +10,13 @@ class TreeView extends Component {
   constructor(props) {
     super(props)
 
-    const collapsedItems = new Map()
-    props.data.forEach(item => {
-      collapsedItems.set(item.id, false)
-    })
+    // const collapsedItems = new Map()
+    // props.data.forEach(item => {
+    //   collapsedItems.set(item.id, false)
+    // })
 
-    console.log(collapsedItems)
     this.state = {
-      collapsedItems
+      collapsedItems: new Map()
     }
 
     this.collapse = this.collapse.bind(this)
@@ -34,10 +33,12 @@ class TreeView extends Component {
 
   getAllNodes(data) {
     const { collapsedItems } = this.state
+    const list = []
 
-    const list = data.map(item => {
+    data.forEach(item => {
       if(item.children !== undefined) {
-        let isCollapsed = this.state.collapsedItems.get(item.id)
+        let node = item.node
+        let isCollapsed = this.state.collapsedItems.get(node._id)
 
         let folderClass
         if (isCollapsed) {
@@ -46,15 +47,15 @@ class TreeView extends Component {
           folderClass = 'tree-view_children'
         }
 
-        return (
-          <div className='tree-view' key={item.name}>
+        list.push(
+          <div className='tree-view' key={node.name}>
             <FolderItem
-              name={item.name}
+              name={node.name}
               isCollapsed={isCollapsed}
-              onClick={() => this.collapse(item.id)}>
+              onClick={() => this.collapse(node._id)}>
             </FolderItem>
             {
-              item.children.length ?
+              item.children.size ?
               <div className={folderClass}>
                 { this.getAllNodes(item.children) }
               </div>
@@ -63,7 +64,7 @@ class TreeView extends Component {
           </div>
         )
       } else if(item.children === undefined) {
-        return <HostNode key={item.name}>{item.name}</HostNode>
+        list.push(<HostNode key={item.name}>{item.name}</HostNode>)
       }
     })
 

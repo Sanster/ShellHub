@@ -72,6 +72,8 @@ app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, '../..', 'build/index.html'))
 })
 
+app.use('/api', require('./routes'))
+
 app.post('/login',
   passport.authenticate('local', { failureRedirect: '/' }),
   (req, res) => {
@@ -157,10 +159,5 @@ io.on('connection', socket => {
     tryKeyboard: true
   })
 
-  // socket.on('get user sessions', userId => {
-  //   let sessionsGrouped = await Session.aggregate({
-  //     $group: { _id: "$sessionGroupId", children: { $push: "$$ROOT" }}
-  //   })
-  // })
 })
 

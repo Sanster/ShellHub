@@ -7,6 +7,8 @@ module.exports = function connectDatabase(uri) {
       .on('close', () => console.log('Database connection closed.'))
       .once('open', () => resolve(mongoose.connections[0]))
 
+    mongoose.Promise = global.Promise
+
     mongoose.connect(uri)
   })
 }
