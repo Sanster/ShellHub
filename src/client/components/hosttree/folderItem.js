@@ -3,6 +3,7 @@ import { ItemTypes } from './dndtypes'
 import { DropTarget } from 'react-dnd'
 import ContextMenu from '../contextMenu'
 import axios from 'axios'
+import SessionAddDialog from '../sessionAddDialog'
 
 const folderTarget = {
   drop(props, monitor) {
@@ -22,11 +23,13 @@ class TreeItem extends Component {
     super(props)
 
     this.state = {
-      showContextMenu: false
+      showContextMenu: false,
+      showSessionAddDialog: false
     }
 
     this.handleClick = this.handleClick.bind(this)
     this.onAddSessionClick = this.onAddSessionClick.bind(this)
+    this.hideSessionAddDialog = this.hideSessionAddDialog.bind(this)
   }
 
   componentDidMount() {
@@ -55,10 +58,18 @@ class TreeItem extends Component {
     e.stopPropagation()
     console.log('add session click')
 
+    this.setState({ showSessionAddDialog: true })
+  }
+
+  hideSessionAddDialog(){
+    this.setState({ showSessionAddDialog: false })
+  }
+
+  addSession(sessionData) {
     axios.post('/api/session', {
-      name: 'test',
-      hostIP: '1.0.1.0',
-      hostUser: 'cwq',
+      name: sessionData.name,
+      hostIP: sessionData.hostIP,
+      hostUser: sessionData.hostUser,
       sessionGroupId: '58f1b1feb3eded6fceed6391'
     }).then(res => {
       console.log(res)
@@ -75,7 +86,10 @@ class TreeItem extends Component {
       isCollapsed
      } = this.props
 
-    const { showContextMenu } = this.state
+    const {
+      showContextMenu,
+      showSessionAddDialog
+    } = this.state
 
     let folderArrowClass = 'icon'
     if (isCollapsed) {
@@ -96,6 +110,11 @@ class TreeItem extends Component {
         className="tree-view-folder"
         onContextMenu={this.handleClick}
         onClick={this.props.onClick}>
+        <SessionAddDialog
+          open={showSessionAddDialog}
+          onOk={this.addSession}
+          onCancel={this.hideSessionAddDialog}>
+        </SessionAddDialog>
         { showContextMenu ? contextMenu : null }
         <div className={folderArrowClass}></div>
         <div className='icon folder'></div>

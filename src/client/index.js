@@ -2,7 +2,6 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 import App from './app'
 import LoginPage from './pages/loginPage'
-import SessionAddDialog from './components/sessionAddDialog'
 import { AppContainer } from 'react-hot-loader'
 
 ReactDOM.render(
