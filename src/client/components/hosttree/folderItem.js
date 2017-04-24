@@ -1,9 +1,7 @@
 import React, {Component} from 'react'
 import { ItemTypes } from './dndtypes'
 import { DropTarget } from 'react-dnd'
-import folderCollapsedArrowIcon from './folderCollapsedArrow.svg'
-import folderArrowIcon from './folderArrow.svg'
-import folderIcon from './folder.svg'
+import ContextMenu from '../contextMenu'
 
 const folderTarget = {
   drop(props, monitor) {
@@ -19,6 +17,44 @@ function collect(connect, monitor) {
 }
 
 class TreeItem extends Component {
+  constructor(props) {
+    super(props)
+
+    this.state = {
+      showContextMenu: false
+    }
+
+    this.handleClick = this.handleClick.bind(this)
+    this.onAddSessionClick = this.onAddSessionClick.bind(this)
+  }
+
+  componentDidMount() {
+    document.addEventListener('click', this.handleClick)
+  }
+
+  componentWillUnmount() {
+    document.removeEventListener('click', this.handleClick)
+  }
+
+  handleClick(e) {
+    e.preventDefault()
+    if (e.type === 'contextmenu') {
+      console.log('right')
+      this.setState({ showContextMenu: true })
+    } else {
+      const { showContextMenu } = this.state
+
+      if (showContextMenu && e.target.contains !== this.contextMenu) {
+        this.setState({ showContextMenu: false })
+      }
+    }
+  }
+
+  onAddSessionClick(e) {
+    e.stopPropagation()
+    console.log('add session click')
+  }
+
   render() {
     const {
       connectDropTarget,
@@ -27,6 +63,7 @@ class TreeItem extends Component {
       isCollapsed
      } = this.props
 
+    const { showContextMenu } = this.state
 
     let folderArrowClass = 'icon'
     if (isCollapsed) {
@@ -35,10 +72,19 @@ class TreeItem extends Component {
       folderArrowClass += ' folder-arrow'
     }
 
+    const contextMenu =
+      <ContextMenu
+        type="folder"
+        onAddSessionClick={this.onAddSessionClick}
+        ref={ref => {this.contextMenu = ref}}>
+      </ContextMenu>
+
     return connectDropTarget(
       <div
         className="tree-view-folder"
+        onContextMenu={this.handleClick}
         onClick={this.props.onClick}>
+        { showContextMenu ? contextMenu : null }
         <div className={folderArrowClass}></div>
         <div className='icon folder'></div>
         <span>{name}</span>
