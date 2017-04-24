@@ -2,6 +2,7 @@ import React, {Component} from 'react'
 import { ItemTypes } from './dndtypes'
 import { DropTarget } from 'react-dnd'
 import ContextMenu from '../contextMenu'
+import axios from 'axios'
 
 const folderTarget = {
   drop(props, monitor) {
@@ -53,6 +54,17 @@ class TreeItem extends Component {
   onAddSessionClick(e) {
     e.stopPropagation()
     console.log('add session click')
+
+    axios.post('/api/session', {
+      name: 'test',
+      hostIP: '1.0.1.0',
+      hostUser: 'cwq',
+      sessionGroupId: '58f1b1feb3eded6fceed6391'
+    }).then(res => {
+      console.log(res)
+    }).catch(err => {
+      console.error(err)
+    })
   }
 
   render() {

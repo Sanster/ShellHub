@@ -28,7 +28,7 @@ class SidebarMenu extends Component {
   }
 
   componentDidMount() {
-    axios .get('/api/user/session')
+    axios .get('/api/session')
       .then(res => {
         const sessionsGrouped = res.data
 

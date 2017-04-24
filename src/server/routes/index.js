@@ -6,7 +6,7 @@ var Session = require('../models/session.js')
 var SessionGroup = require('../models/sessionGroup.js')
 var User = require('../models/user.js')
 
-router.get('/user/session', async (req, res) => {
+router.get('/session', async (req, res) => {
   let sessionsGrouped = await Session.aggregate({
     $group: { _id: "$sessionGroupId", children: { $push: "$$ROOT" }}
   })
@@ -18,5 +18,25 @@ router.get('/user/session', async (req, res) => {
 
   res.send(sessionsGrouped)
 });
+
+router.post('/session', async (req, res) => {
+  const testUserId = ObjectId('58f1b1feb3eded6fceed6390')
+  const body = req.body
+
+  var session = new Session({
+    name: body.name,
+    hostIP: body.hostIP,
+    hostUser: body.hostUser,
+    userId: testUserId,
+    sessionGroupId: ObjectId(body.sessionGroupId)
+  })
+
+  try {
+    await session.save()
+    res.send('Succsss')
+  } catch (error) {
+    res.status(500).send(`Internal Server Error: ${error}`)
+  }
+})
 
 module.exports = router
