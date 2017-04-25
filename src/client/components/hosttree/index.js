@@ -4,6 +4,7 @@ import { DragDropContext } from 'react-dnd'
 import HTML5Backend from 'react-dnd-html5-backend'
 import HostNode from './hostNode'
 import FolderItem from './folderItem'
+import axios from 'axios'
 import './style.less'
 
 class TreeView extends Component {
@@ -22,6 +23,7 @@ class TreeView extends Component {
 
     this.collapse = this.collapse.bind(this)
     this.treeItemClick = this.treeItemClick.bind(this)
+    this.addSession = this.addSession.bind(this)
   }
 
   collapse(id) {
@@ -36,6 +38,19 @@ class TreeView extends Component {
 
   treeItemClick(id) {
     this.setState({ selectedItemId: id })
+  }
+
+  addSession(sessionData) {
+    axios.post('/api/session', {
+      name: sessionData.name,
+      hostIP: sessionData.hostIP,
+      hostUser: sessionData.hostUser,
+      sessionGroupId: sessionData.sessionGroupId
+    }).then(res => {
+      console.log(res)
+    }).catch(err => {
+      console.error(err)
+    })
   }
 
   getAllNodes(data) {
@@ -58,9 +73,11 @@ class TreeView extends Component {
         list.push(
           <div className='tree-view' key={node.name}>
             <FolderItem
+              addSession={this.addSession}
               isSelected={isSelected}
               name={node.name}
               isCollapsed={isCollapsed}
+              sessionGroupId={node._id}
               onClick={() => this.collapse(node._id)}>
             </FolderItem>
             {

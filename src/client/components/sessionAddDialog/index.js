@@ -11,7 +11,9 @@ class SessionAddForm extends Component {
     this.handleHostIPInput = this.handleHostIPInput.bind(this)
     this.handleHostUserInput = this.handleHostUserInput.bind(this)
 
-    this.sessionData = {}
+    this.sessionData = {
+      sessionGroupId: this.props.sessionGroupId
+    }
   }
 
   handleNameInput(e) {

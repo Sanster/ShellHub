@@ -2,7 +2,6 @@ import React, {Component} from 'react'
 import { ItemTypes } from './dndtypes'
 import { DropTarget } from 'react-dnd'
 import ContextMenu from '../contextMenu'
-import axios from 'axios'
 import SessionAddDialog from '../sessionAddDialog'
 
 const folderTarget = {
@@ -65,26 +64,14 @@ class TreeItem extends Component {
     this.setState({ showSessionAddDialog: false })
   }
 
-  addSession(sessionData) {
-    axios.post('/api/session', {
-      name: sessionData.name,
-      hostIP: sessionData.hostIP,
-      hostUser: sessionData.hostUser,
-      sessionGroupId: '58f1b1feb3eded6fceed6391'
-    }).then(res => {
-      console.log(res)
-    }).catch(err => {
-      console.error(err)
-    })
-  }
-
   render() {
     const {
       connectDropTarget,
       isOver,
       name,
       isCollapsed,
-      isSelected
+      isSelected,
+      addSession
      } = this.props
 
     const {
@@ -118,7 +105,8 @@ class TreeItem extends Component {
         onClick={this.props.onClick}>
         <SessionAddDialog
           open={showSessionAddDialog}
-          onOk={this.addSession}
+          onOk={addSession}
+          sessionGroupId={this.props.sessionGroupId}
           onCancel={this.hideSessionAddDialog}>
         </SessionAddDialog>
         { showContextMenu ? contextMenu : null }
