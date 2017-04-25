@@ -23,6 +23,7 @@ class TreeNode extends Component {
     super(props)
 
     this.handleClick = this.handleClick.bind(this)
+    this.handleContextMenuClick = this.handleContextMenuClick.bind(this)
 
     this.state = {
       showContextMenu: false
@@ -30,14 +31,18 @@ class TreeNode extends Component {
   }
 
   componentDidMount() {
-    document.addEventListener('click', this.handleClick)
+    document.addEventListener('click', this.handleContextMenuClick)
   }
 
   componentWillUnmount() {
-    document.removeEventListener('click', this.handleClick)
+    document.removeEventListener('click', this.handleContextMenuClick)
   }
 
   handleClick(e) {
+    console.log('menu left click')
+  }
+
+  handleContextMenuClick(e) {
     e.preventDefault()
     if (e.type === 'contextmenu') {
       console.log('right')
@@ -52,7 +57,7 @@ class TreeNode extends Component {
   }
 
   render() {
-    const { connectDragSource, isDragging, children } = this.props
+    const { connectDragSource, isDragging, children, isSelected } = this.props
     const { showContextMenu } = this.state
 
     const contextMenu =
@@ -61,11 +66,17 @@ class TreeNode extends Component {
         ref={ref => {this.contextMenu = ref}}>
       </ContextMenu>
 
+    let classNames = 'host'
+    if(isSelected) {
+      classNames += ' selected'
+    }
+
     return connectDragSource(
       <div
-        className="host"
+        className={classNames}
         style={{opacity: isDragging ? 0.5 : 1}}
-        onContextMenu={this.handleClick}>
+        onClick={this.props.onClick}
+        onContextMenu={this.handleContextMenuClick}>
         <div className="icon terminal" />
         { showContextMenu ? contextMenu : null }
         {children}

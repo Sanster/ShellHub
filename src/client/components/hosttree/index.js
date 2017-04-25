@@ -16,10 +16,12 @@ class TreeView extends Component {
     // })
 
     this.state = {
-      collapsedItems: new Map()
+      collapsedItems: new Map(),
+      selectedItemId: ''
     }
 
     this.collapse = this.collapse.bind(this)
+    this.treeItemClick = this.treeItemClick.bind(this)
   }
 
   collapse(id) {
@@ -29,6 +31,11 @@ class TreeView extends Component {
     console.log(aa)
     aa.set(id, !isCollapsed)
     this.setState({collapsedItems: aa})
+    this.treeItemClick(id)
+  }
+
+  treeItemClick(id) {
+    this.setState({ selectedItemId: id })
   }
 
   getAllNodes(data) {
@@ -38,6 +45,7 @@ class TreeView extends Component {
     data.forEach(item => {
       if(item.children !== undefined) {
         let node = item.node
+        let isSelected = node._id === this.state.selectedItemId
         let isCollapsed = this.state.collapsedItems.get(node._id)
 
         let folderClass
@@ -50,6 +58,7 @@ class TreeView extends Component {
         list.push(
           <div className='tree-view' key={node.name}>
             <FolderItem
+              isSelected={isSelected}
               name={node.name}
               isCollapsed={isCollapsed}
               onClick={() => this.collapse(node._id)}>
@@ -64,7 +73,16 @@ class TreeView extends Component {
           </div>
         )
       } else if(item.children === undefined) {
-        list.push(<HostNode key={item.name}>{item.name}</HostNode>)
+        let isSelected = item._id === this.state.selectedItemId
+
+        list.push(
+          <HostNode
+            isSelected={isSelected}
+            key={item.name}
+            onClick={() => this.treeItemClick(item._id)}>
+            {item.name}
+          </HostNode>
+        )
       }
     })
 

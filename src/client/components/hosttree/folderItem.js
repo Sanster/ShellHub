@@ -83,7 +83,8 @@ class TreeItem extends Component {
       connectDropTarget,
       isOver,
       name,
-      isCollapsed
+      isCollapsed,
+      isSelected
      } = this.props
 
     const {
@@ -105,9 +106,14 @@ class TreeItem extends Component {
         ref={ref => {this.contextMenu = ref}}>
       </ContextMenu>
 
+    let classNames = 'tree-view-folder'
+    if(isSelected) {
+      classNames += ' selected'
+    }
+
     return connectDropTarget(
       <div
-        className="tree-view-folder"
+        className={classNames}
         onContextMenu={this.handleClick}
         onClick={this.props.onClick}>
         <SessionAddDialog
