@@ -6,7 +6,7 @@ var Session = require('../models/session.js')
 var SessionGroup = require('../models/sessionGroup.js')
 var User = require('../models/user.js')
 
-router.get('/session', async (req, res) => {
+function getSessionsGrouped() {
   let sessionsGrouped = await Session.aggregate({
     $group: { _id: "$sessionGroupId", children: { $push: "$$ROOT" }}
   })
@@ -16,7 +16,11 @@ router.get('/session', async (req, res) => {
     group.sessionGroup = await SessionGroup.findById(ObjectId(group._id))
   }
 
-  res.send(sessionsGrouped)
+  return sessionsGrouped
+}
+
+router.get('/session', async (req, res) => {
+  res.send(getSessionsGrouped())
 });
 
 router.post('/session', async (req, res) => {
@@ -33,7 +37,7 @@ router.post('/session', async (req, res) => {
 
   try {
     await session.save()
-    res.send('Succsss')
+    res.send(getSessionsGrouped())
   } catch (error) {
     res.status(500).send(`Internal Server Error: ${error}`)
   }
