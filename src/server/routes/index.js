@@ -6,7 +6,7 @@ var Session = require('../models/session.js')
 var SessionGroup = require('../models/sessionGroup.js')
 var User = require('../models/user.js')
 
-function getSessionsGrouped() {
+async function getSessionsGrouped() {
   let sessionsGrouped = await Session.aggregate({
     $group: { _id: "$sessionGroupId", children: { $push: "$$ROOT" }}
   })
@@ -19,8 +19,8 @@ function getSessionsGrouped() {
   return sessionsGrouped
 }
 
-router.get('/session', async (req, res) => {
-  res.send(getSessionsGrouped())
+router.get('/session',async (req, res) => {
+  res.send(await getSessionsGrouped())
 });
 
 router.post('/session', async (req, res) => {

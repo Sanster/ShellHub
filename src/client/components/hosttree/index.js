@@ -6,24 +6,25 @@ import HostNode from './hostNode'
 import FolderItem from './folderItem'
 import axios from 'axios'
 import './style.less'
+import FolderContextMenu from '../contextMenu/folder.js'
+import HostContextMenu from '../contextMenu/host.js'
 
 class TreeView extends Component {
   constructor(props) {
     super(props)
 
-    // const collapsedItems = new Map()
-    // props.data.forEach(item => {
-    //   collapsedItems.set(item.id, false)
-    // })
-
     this.state = {
       collapsedItems: new Map(),
-      selectedItemId: ''
+      selectedItemId: '',
+      showContextMenu: false,
+      contextMenuType: ''
     }
 
     this.collapse = this.collapse.bind(this)
-    this.treeItemClick = this.treeItemClick.bind(this)
+    this.treeItemClick = this.hostNodeClick.bind(this)
     this.addSession = this.addSession.bind(this)
+    this.handleContextMenu = this.handleContextMenu.bind(this)
+    this.handleClick = this.handleClick.bind(this)
   }
 
   collapse(id) {
@@ -33,10 +34,10 @@ class TreeView extends Component {
     console.log(aa)
     aa.set(id, !isCollapsed)
     this.setState({collapsedItems: aa})
-    this.treeItemClick(id)
+    this.hostNodeClick(id)
   }
 
-  treeItemClick(id) {
+  hostNodeClick(id) {
     this.setState({ selectedItemId: id })
   }
 
@@ -75,6 +76,7 @@ class TreeView extends Component {
             <FolderItem
               addSession={this.addSession}
               isSelected={isSelected}
+              onContextMenu={(e) => this.handleContextMenu(e, 'folder', node._id)}
               name={node.name}
               isCollapsed={isCollapsed}
               sessionGroupId={node._id}
@@ -94,9 +96,10 @@ class TreeView extends Component {
 
         list.push(
           <HostNode
+            onContextMenu={(e) => this.handleContextMenu(e, 'host', item._id)}
             isSelected={isSelected}
             key={item.name}
-            onClick={() => this.treeItemClick(item._id)}>
+            onClick={() => this.hostNodeClick(item._id)}>
             {item.name}
           </HostNode>
         )
@@ -106,14 +109,92 @@ class TreeView extends Component {
     return list
   }
 
+  componentDidMount() {
+    document.addEventListener('click', this.handleClick)
+  }
+
+  componentWillUnmount() {
+    document.removeEventListener('click', this.handleClick)
+  }
+
+  handleClick(e) {
+    if (e.type === 'contextmenu') return
+
+    e.preventDefault()
+    const { showContextMenu } = this.state
+
+    if (showContextMenu && e.target.contains !== this.contextMenu) {
+      this.setState({ showContextMenu: false })
+    }
+  }
+
+  handleContextMenu(event, type, id) {
+    event.preventDefault()
+
+    this.setState({
+      showContextMenu: true,
+      contextMenuType: type
+    })
+
+    console.log(this.contextMenu)
+    const clickX = event.clientX
+    const clickY = event.clientY
+    const screenW = window.innerWidth
+    const screenH = window.innerHeight
+    const rootW = this.contextMenu.offsetWidth
+    const rootH = this.contextMenu.offsetHeight
+
+    const right = (screenW - clickX) > rootW
+    const left = !right
+    const top = (screenH - clickY) > rootH
+    const bottom = !top
+
+    if (right) {
+      this.contextMenu.style.left = `${clickX + 5}px`
+    }
+
+    if (left) {
+      this.contextMenu.style.left = `${clickX - rootW - 5}px`
+    }
+
+    if (top) {
+      this.contextMenu.style.top = `${clickY + 5}px`
+    }
+
+    if (bottom) {
+      this.contextMenu.style.top = `${clickY - rootH - 5}px`
+    }
+  }
+
   render() {
+    const {
+      showContextMenu,
+      contextMenuType
+    } = this.state
+
+    let contextMenu = null
+
+    if (contextMenuType === 'folder') {
+      contextMenu =
+        <FolderContextMenu
+          onAddSessionClick={this.onAddSessionClick}
+          ref={ref => {this.contextMenu = ref}}>
+        </FolderContextMenu>
+    } else if (contextMenuType === 'host'){
+      contextMenu =
+        <HostContextMenu
+          ref={ref => {this.contextMenu = ref}}>
+        </HostContextMenu>
+    }
+
     const { data } = this.props
 
     const allNodes = this.getAllNodes(data)
 
     return (
       <div className="host-tree">
-        {allNodes}
+        { showContextMenu ? contextMenu : null }
+        { allNodes }
       </div>
     )
   }

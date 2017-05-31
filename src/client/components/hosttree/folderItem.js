@@ -1,7 +1,6 @@
 import React, {Component} from 'react'
 import { ItemTypes } from './dndtypes'
 import { DropTarget } from 'react-dnd'
-import ContextMenu from '../contextMenu'
 import SessionAddDialog from '../sessionAddDialog'
 
 const folderTarget = {
@@ -21,47 +20,6 @@ class TreeItem extends Component {
   constructor(props) {
     super(props)
 
-    this.state = {
-      showContextMenu: false,
-      showSessionAddDialog: false
-    }
-
-    this.handleClick = this.handleClick.bind(this)
-    this.onAddSessionClick = this.onAddSessionClick.bind(this)
-    this.hideSessionAddDialog = this.hideSessionAddDialog.bind(this)
-  }
-
-  componentDidMount() {
-    document.addEventListener('click', this.handleClick)
-  }
-
-  componentWillUnmount() {
-    document.removeEventListener('click', this.handleClick)
-  }
-
-  handleClick(e) {
-    e.preventDefault()
-    if (e.type === 'contextmenu') {
-      console.log('right')
-      this.setState({ showContextMenu: true })
-    } else {
-      const { showContextMenu } = this.state
-
-      if (showContextMenu && e.target.contains !== this.contextMenu) {
-        this.setState({ showContextMenu: false })
-      }
-    }
-  }
-
-  onAddSessionClick(e) {
-    e.stopPropagation()
-    console.log('add session click')
-
-    this.setState({ showSessionAddDialog: true })
-  }
-
-  hideSessionAddDialog(){
-    this.setState({ showSessionAddDialog: false })
   }
 
   render() {
@@ -71,13 +29,9 @@ class TreeItem extends Component {
       name,
       isCollapsed,
       isSelected,
-      addSession
+      addSession,
+      onContextMenu
      } = this.props
-
-    const {
-      showContextMenu,
-      showSessionAddDialog
-    } = this.state
 
     let folderArrowClass = 'icon'
     if (isCollapsed) {
@@ -85,13 +39,6 @@ class TreeItem extends Component {
     } else {
       folderArrowClass += ' folder-arrow'
     }
-
-    const contextMenu =
-      <ContextMenu
-        type="folder"
-        onAddSessionClick={this.onAddSessionClick}
-        ref={ref => {this.contextMenu = ref}}>
-      </ContextMenu>
 
     let classNames = 'tree-view-folder'
     if(isSelected) {
@@ -101,15 +48,8 @@ class TreeItem extends Component {
     return connectDropTarget(
       <div
         className={classNames}
-        onContextMenu={this.handleClick}
-        onClick={this.props.onClick}>
-        <SessionAddDialog
-          open={showSessionAddDialog}
-          onOk={addSession}
-          sessionGroupId={this.props.sessionGroupId}
-          onCancel={this.hideSessionAddDialog}>
-        </SessionAddDialog>
-        { showContextMenu ? contextMenu : null }
+        onClick={this.props.onClick}
+        onContextMenu={onContextMenu}>
         <div className={folderArrowClass}></div>
         <div className='icon folder'></div>
         <span>{name}</span>
