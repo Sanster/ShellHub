@@ -4,6 +4,7 @@
   "description": "Web Shell",
   "main": "index.js",
   "scripts": {
+    "mongo": "cd ~ && mongod --dbpath=./data --fork --logpath /dev/null",
     "start": "nodemon src/server/app.js --watch src/server",
     "install:hook": "ln -fs ../../scripts/pre-commit .git/hooks/pre-commit"
   },
