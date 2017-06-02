@@ -1,5 +1,4 @@
 .host-tree {
-  padding-left: 20px;
 }
 
 .tree-view {
@@ -9,24 +8,16 @@
 
 .tree-view-folder, .host {
   /* immediate child of .tree-view, for styling convenience */
-  cursor: pointer;
   margin: 3px;
   user-select: none;
   display: flex;
   align-items: center;
-
-  &:hover {
-    background-color: #2a2d2e;
-  }
-
-  &.selected {
-    background-color: #2a2d2e;
-  }
 }
 
 /* style for the children nodes container */
 .tree-view_children {
-  margin-left: 32px;
+  padding-left: 30px;
+  cursor: pointer;
 }
 
 .tree-view_children-collapsed {
@@ -35,7 +26,7 @@
 
 .icon {
   display: inline-block;
-  margin-right: 6px;
+  margin-right: 8px;
 }
 
 .icon.folder-collapsed-arrow {
@@ -64,4 +55,16 @@
   background: url('terminal.svg') no-repeat;
   width: 18px;
   height: 14px;
+}
+
+.host-tree-row {
+  cursor: pointer;
+
+  &:hover {
+    background-color: #707070;
+  }
+
+  &.selected {
+    background-color: #4e4e4e;
+  }
 }

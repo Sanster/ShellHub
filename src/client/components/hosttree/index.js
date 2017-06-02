@@ -8,6 +8,7 @@ import axios from 'axios'
 import './style.less'
 import FolderContextMenu from '../contextMenu/folder.js'
 import HostContextMenu from '../contextMenu/host.js'
+import classNames from 'classnames'
 
 class TreeView extends Component {
   constructor(props) {
@@ -52,61 +53,6 @@ class TreeView extends Component {
     }).catch(err => {
       console.error(err)
     })
-  }
-
-  getAllNodes(data) {
-    const { collapsedItems } = this.state
-    const list = []
-
-    data.forEach(item => {
-      if(item.children !== undefined) {
-        let node = item.node
-        let isSelected = node._id === this.state.selectedItemId
-        let isCollapsed = this.state.collapsedItems.get(node._id)
-
-        let folderClass
-        if (isCollapsed) {
-          folderClass = 'tree-view_children-collapsed'
-        } else {
-          folderClass = 'tree-view_children'
-        }
-
-        list.push(
-          <div className='tree-view' key={node.name}>
-            <FolderItem
-              addSession={this.addSession}
-              isSelected={isSelected}
-              onContextMenu={(e) => this.handleContextMenu(e, 'folder', node._id)}
-              name={node.name}
-              isCollapsed={isCollapsed}
-              sessionGroupId={node._id}
-              onClick={() => this.collapse(node._id)}>
-            </FolderItem>
-            {
-              item.children.size ?
-              <div className={folderClass}>
-                { this.getAllNodes(item.children) }
-              </div>
-              : null
-            }
-          </div>
-        )
-      } else if(item.children === undefined) {
-        let isSelected = item._id === this.state.selectedItemId
-
-        list.push(
-          <HostNode
-            onContextMenu={(e) => this.handleContextMenu(e, 'host', item._id)}
-            isSelected={isSelected}
-            key={item.name}
-            onClick={() => this.hostNodeClick(item._id)}>
-            {item.name}
-          </HostNode>
-        )
-      }
-    })
-
-    return list
   }
 
   componentDidMount() {
@@ -166,11 +112,61 @@ class TreeView extends Component {
     }
   }
 
+  getTreeRows(data, depth = 1){
+    let list = []
+
+    data.forEach(item => {
+      let style = {
+        paddingLeft: 12 * depth
+      }
+
+      // item 文件夹
+      if(item.children !== undefined) {
+        let node = item.node
+
+
+        list.push(
+          <div className='host-tree-row folder' key={node._id} style={style}>
+            <FolderItem
+              addSession={this.addSession}
+              onContextMenu={(e) => this.handleContextMenu(e, 'folder', node._id)}
+              name={node.name}
+              sessionGroupId={node._id}
+              onClick={() => this.collapse(node._id)}>
+            </FolderItem>
+          </div>
+        )
+
+        if(item.children.size > 0){
+          list = list.concat(this.getTreeRows(item.children, depth + 1))
+        }
+      }
+      else {
+        // 这里的箭头为 icon.padding-right + 箭头的宽度
+        style.paddingLeft += 20
+
+        list.push(
+          <div className="host-tree-row" key={item._id} style={style}>
+            <HostNode
+              onContextMenu={(e) => this.handleContextMenu(e, 'host', item._id)}
+              onClick={() => this.hostNodeClick(item._id)}>
+             {item.name}
+           </HostNode>
+          </div>
+        )
+      }
+    })
+
+    return list
+  }
+
   render() {
     const {
       showContextMenu,
       contextMenuType
     } = this.state
+
+    const { data } = this.props
 
     let contextMenu = null
 
@@ -187,14 +183,14 @@ class TreeView extends Component {
         </HostContextMenu>
     }
 
-    const { data } = this.props
-
-    const allNodes = this.getAllNodes(data)
+    const treeRows = this.getTreeRows(data)
 
     return (
       <div className="host-tree">
         { showContextMenu ? contextMenu : null }
-        { allNodes }
+        <div className="host-tree-rows">
+          { treeRows }
+        </div>
       </div>
     )
   }
